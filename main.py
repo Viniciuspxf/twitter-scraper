@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -10,7 +11,10 @@ import os
 
 load_dotenv()
 
-browser = webdriver.Chrome()
+options = Options()
+options.add_argument('--headless')
+
+browser = webdriver.Chrome(options=options)
 browser.get("https://twitter.com/")
 
 
@@ -54,9 +58,9 @@ finally:
     )
 
 username= input("Digite o nome do usuário: ")
-beginDate = input("Digite a data final no formato AAAA-MM-DD: ")
-endDate= input("Digite a data inical no formato AAAA-MM-DD: ")
-filename = input("Digite o nome do arquivo")
+beginDate = input("Digite a data final no formato AAAA-MM-DD: ").strip()
+endDate= input("Digite a data inical no formato AAAA-MM-DD: ").strip()
+filename = input("Digite o nome do arquivo: ")
 browser.get("https://twitter.com/")
 
 
