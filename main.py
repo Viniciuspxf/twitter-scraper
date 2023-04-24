@@ -58,14 +58,25 @@ finally:
         lambda d: d.find_element(By.CSS_SELECTOR, "a[href='/home']")
     )
 
-username= input("Digite o nome do usuário: ")
+username = input("Digite o nome do usuário (ou deixe em branco, se não quiser filtrar por @): ")
+hashtag = input("Digite a hashtag (ou deixe em branco, se não quiser filtrar por #): ")
 beginDate = input("Digite a data final no formato AAAA-MM-DD: ").strip()
-endDate= input("Digite a data inical no formato AAAA-MM-DD: ").strip()
+endDate= input("Digite a data inicial no formato AAAA-MM-DD: ").strip()
 filename = input("Digite o nome do arquivo: ")
 browser.get("https://twitter.com/")
 
+url = "https://twitter.com/search?q="
 
-browser.get("https://twitter.com/search?q=(from%3A"+ username + ")%20until%3A" + beginDate +"%20since%3A"+ endDate +"&src=typed_query&f=live")
+if username:
+    url += "(from%3A" + username + ")%20"
+
+if hashtag:
+    url +="(%23" + hashtag + ")%20"
+
+url += "until%3A" + beginDate +"%20since%3A"+ endDate +"&src=typed_query&f=live"
+
+
+browser.get(url)
 
 
 tweets = WebDriverWait(browser, timeout=10).until(
