@@ -13,6 +13,7 @@ load_dotenv()
 
 options = Options()
 options.add_argument('--headless')
+options.add_argument('--lang=en')
 
 browser = webdriver.Chrome(options=options)
 browser.get("https://twitter.com/")
@@ -90,5 +91,6 @@ while previousHeight != currentHeight:
 dataframe = pandas.DataFrame.from_dict([dictOfTweets])
 dataframe = dataframe.T
 dataframe.to_excel(filename + ".xlsx")
+print("FINALIZADO!")
 
 
