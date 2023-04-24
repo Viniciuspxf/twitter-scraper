@@ -1,3 +1,6 @@
 *.xlsx
 .env
 virtual_env
+build
+dist
+*.spec
