@@ -19,42 +19,42 @@ browser = webdriver.Chrome(options=options)
 browser.get("https://twitter.com/")
 
 
-loginButton = WebDriverWait(browser, timeout=5).until(
+loginButton = WebDriverWait(browser, timeout=10).until(
     lambda d: d.find_element(By.CSS_SELECTOR, "#layers > div > div:nth-child(1) > div > div > div > div > div > div > div > div:nth-child(1) > a > div"))
 loginButton.click()
 
 
-usernameField = WebDriverWait(browser, timeout=5).until(
+usernameField = WebDriverWait(browser, timeout=10).until(
     lambda d: d.find_element(By.CSS_SELECTOR, "input[autocomplete='username']"))
 usernameField.send_keys(os.environ["EMAIL"])
 
 
-nextButton = WebDriverWait(browser, timeout=5).until(
+nextButton = WebDriverWait(browser, timeout=10).until(
     lambda d: d.find_element(By.XPATH, "//span[contains(text(), 'Next')]"))
 nextButton.click()
 
 try:
-    passwordField = WebDriverWait(browser, timeout=5).until(
+    passwordField = WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_element(By.CSS_SELECTOR, "input[autocomplete='current-password']"))
     passwordField.send_keys(os.environ["PASSWORD"])
 except:
-    phoneField = WebDriverWait(browser, timeout=5).until(
+    phoneField = WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_element(By.CSS_SELECTOR, "input[autocomplete='on']"))
     phoneField.send_keys(os.environ["PHONE"])
 
-    nextButton = WebDriverWait(browser, timeout=5).until(
+    nextButton = WebDriverWait(browser, timeout=10).until(
     lambda d: d.find_element(By.XPATH, "//span[contains(text(), 'Next')]"))
     nextButton.click()
 finally:
-    passwordField = WebDriverWait(browser, timeout=5).until(
+    passwordField = WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_element(By.CSS_SELECTOR, "input[autocomplete='current-password']"))
     passwordField.send_keys(os.environ["PASSWORD"])
 
-    loginButton = WebDriverWait(browser, timeout=5).until(
+    loginButton = WebDriverWait(browser, timeout=10).until(
     lambda d: d.find_elements(By.XPATH, "//span[contains(text(), 'Log in')]"))[1]
 
     loginButton.click()
-    WebDriverWait(browser, timeout=5).until(
+    WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_element(By.CSS_SELECTOR, "a[href='/home']")
     )
 
@@ -68,7 +68,7 @@ browser.get("https://twitter.com/")
 browser.get("https://twitter.com/search?q=(from%3A"+ username + ")%20until%3A" + beginDate +"%20since%3A"+ endDate +"&src=typed_query&f=live")
 
 
-tweets = WebDriverWait(browser, timeout=5).until(
+tweets = WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_element(By.CSS_SELECTOR, "article[data-testid='tweet']"))
 
 dictOfTweets = dict()
@@ -77,7 +77,7 @@ previousHeight = -1
 currentHeight = 0
 
 while previousHeight != currentHeight:
-    tweets = WebDriverWait(browser, timeout=5).until(
+    tweets = WebDriverWait(browser, timeout=10).until(
         lambda d: d.find_elements(By.CSS_SELECTOR, "article[data-testid='tweet']"))
 
     for tweet in tweets:
@@ -86,7 +86,7 @@ while previousHeight != currentHeight:
         dictOfTweets[datetime] = textElement.text
 
     browser.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.CONTROL, Keys.END)
-    time.sleep(3)
+    time.sleep(6)
     currentHeight, previousHeight = browser.execute_script("return document.body.scrollHeight"), currentHeight
 
 dataframe = pandas.DataFrame.from_dict([dictOfTweets])
