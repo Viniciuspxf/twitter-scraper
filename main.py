@@ -77,9 +77,6 @@ previousHeight = -1
 currentHeight = 0
 
 while previousHeight != currentHeight:
-    browser.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.CONTROL, Keys.END)
-    time.sleep(3)
-    currentHeight, previousHeight = browser.execute_script("return document.body.scrollHeight"), currentHeight
     tweets = WebDriverWait(browser, timeout=5).until(
         lambda d: d.find_elements(By.CSS_SELECTOR, "article[data-testid='tweet']"))
 
@@ -87,6 +84,10 @@ while previousHeight != currentHeight:
         datetime = tweet.find_element(By.CSS_SELECTOR, "time").get_attribute("datetime")
         textElement = tweet.find_element(By.CSS_SELECTOR, "div[data-testid='tweetText']")
         dictOfTweets[datetime] = textElement.text
+
+    browser.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.CONTROL, Keys.END)
+    time.sleep(3)
+    currentHeight, previousHeight = browser.execute_script("return document.body.scrollHeight"), currentHeight
 
 dataframe = pandas.DataFrame.from_dict([dictOfTweets])
 dataframe = dataframe.T
