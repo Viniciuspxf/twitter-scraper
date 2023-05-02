@@ -60,12 +60,17 @@ finally:
 
 username = input("Digite o nome do usuário (ou deixe em branco, se não quiser filtrar por @): ")
 hashtag = input("Digite a hashtag (ou deixe em branco, se não quiser filtrar por #): ")
+keywords = input("Digite palavras chave separadas por espaço (ou deixe em branco, se não quiser filtrar por): ").split()
 beginDate = input("Digite a data final no formato AAAA-MM-DD: ").strip()
 endDate= input("Digite a data inicial no formato AAAA-MM-DD: ").strip()
 filename = input("Digite o nome do arquivo: ")
 browser.get("https://twitter.com/")
 
 url = "https://twitter.com/search?q="
+
+if keywords:
+    for keyword in keywords:
+        url += '"'+ keyword +'"%20'
 
 if username:
     url += "(from%3A" + username + ")%20"
@@ -96,7 +101,7 @@ while previousHeight != currentHeight:
         textElement = tweet.find_element(By.CSS_SELECTOR, "div[data-testid='tweetText']")
         dictOfTweets[datetime] = textElement.text
 
-    browser.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.CONTROL, Keys.END)
+    browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(6)
     currentHeight, previousHeight = browser.execute_script("return document.body.scrollHeight"), currentHeight
 
